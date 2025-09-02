@@ -1,0 +1,277 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 214 90% 45%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 214 90% 45%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    --navbar-bg: 217 53% 22%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 214 90% 45%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    --navbar-bg: 217 53% 18%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    /* Base font size reduced by 20% for overall smaller appearance */
+    font-size: 12.8px; /* 16px * 0.8 = 12.8px */
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+    /* Responsive scaling: 20% smaller on all devices */
+    font-size: 0.8rem; /* This makes all rem-based sizes 20% smaller */
+  }
+
+  /* Responsive adjustments for different screen sizes */
+  @media (max-width: 640px) {
+    html {
+      font-size: 12px; /* Slightly smaller on mobile for better fit */
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    html {
+      font-size: 12.8px; /* Standard 20% reduction on tablets */
+    }
+  }
+
+  @media (min-width: 1025px) {
+    html {
+      font-size: 13.6px; /* Slightly larger on desktop while still 15% smaller than normal */
+    }
+  }
+}
+
+@layer components {
+  .forrent-container {
+    @apply max-w-7xl mx-auto px-3 sm:px-6 lg:px-8;
+  }
+
+  /* Mobile-first improvements */
+  .mobile-tap-target {
+    @apply min-h-[44px] min-w-[44px]; /* Apple's recommended minimum tap target */
+  }
+
+  .mobile-scroll-smooth {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-safe-area {
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Improve touch interactions */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  /* Better mobile focus states */
+  .mobile-focus:focus-visible {
+    @apply outline-2 outline-offset-2 outline-blue-500;
+  }
+
+  /* Mobile-optimized cards */
+  .mobile-card {
+    @apply rounded-lg shadow-sm border border-gray-200 bg-white transition-all duration-200;
+  }
+
+  .mobile-card:active {
+    @apply scale-[0.98] shadow-md;
+  }
+  
+  .ai-search-bar {
+    @apply transition-all duration-300 shadow-lg hover:shadow-xl focus-within:shadow-[0_0_20px_rgba(149,76,233,0.6)];
+  }
+
+  .orange-gradient {
+    @apply bg-gradient-to-r from-forrent-orange to-forrent-lightOrange;
+  }
+  
+  .navy-gradient {
+    @apply bg-gradient-to-r from-[rgba(26,41,84,255)] to-[rgba(38,61,125,255)];
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .thumbnail-arrow {
+    @apply absolute top-1/2 -translate-y-1/2 bg-white bg-opacity-60 hover:bg-opacity-80 p-1 rounded-full shadow transition-all duration-200 z-10;
+  }
+
+  .thumbnail-dots {
+    @apply flex justify-center gap-1 absolute bottom-2 left-1/2 -translate-x-1/2 z-10;
+  }
+
+  .thumbnail-dot {
+    @apply h-2 w-2 rounded-full bg-white bg-opacity-60 transition-all duration-200;
+  }
+
+  .thumbnail-dot-active {
+    @apply bg-opacity-100;
+  }
+
+  .rainbow-text {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500;
+  }
+
+  .footer-admin-link {
+    @apply text-xs text-gray-500 hover:text-gray-700 transition-colors mt-4 inline-block;
+  }
+  
+  /* Glassmorphism search bar effect */
+  .glassmorphism-search {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .glassmorphism-search:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .glassmorphism-search:focus-within {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 16px 48px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.3),
+      0 0 0 2px rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  /* Fluid glass animation */
+  .glassmorphism-search::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+      rgba(255, 255, 255, 0.3), 
+      rgba(255, 255, 255, 0.1), 
+      rgba(255, 255, 255, 0.3)
+    );
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .glassmorphism-search:hover::before {
+    opacity: 1;
+  }
+
+  /* Legacy search glow for fallback */
+  .search-glow {
+    @apply shadow-[0_0_15px_rgba(149,76,233,0.5)] hover:shadow-[0_0_25px_rgba(149,76,233,0.7)];
+  }
+}

@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# Detect social media bots and crawlers
+RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|facebookcatalog|Facebot|WhatsApp|LinkedInBot|Twitterbot|Slackbot|Discordbot|TelegramBot) [NC]
+# If it's a property page
+RewriteCond %{REQUEST_URI} ^/property/([a-f0-9-]+)$
+# Redirect to Supabase Edge Function
+RewriteRule ^property/([a-f0-9-]+)$ https://hdigtojmeagwaqdknblj.supabase.co/functions/v1/property-ssr?id=$1 [R=301,L]
+
+# Handle React Router - serve index.html for all routes
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]

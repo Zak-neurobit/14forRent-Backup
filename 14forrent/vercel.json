@@ -1,0 +1,29 @@
+{
+  "rewrites": [
+    {
+      "source": "/((?!api/|_next/|static/|images/|favicon.ico|favicon.jpg|sw.js|manifest.json|robots.txt|sitemap.xml|.*\\..*).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "s-maxage=86400" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" }
+      ]
+    }
+  ],
+  "functions": {
+    "api/404.js": {
+      "maxDuration": 10
+    }
+  }
+}

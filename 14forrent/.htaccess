@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  
+  # Redirect bot/crawler traffic to Supabase edge function for SSR
+  # This ensures social media platforms get proper meta tags with property images
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|facebookcatalog|Facebot|WhatsApp|LinkedInBot|Twitterbot|Slackbot|Discordbot|TelegramBot|Googlebot|bingbot|Slurp|DuckDuckBot|baiduspider|yandex|vkShare|redditbot|Applebot|Pinterestbot|Embedly|quora\ link\ preview|outbrain|pinterest|Flipboard|tumblr|bitlybot|Skype|iMessage|developers\.google\.com) [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} (W3C_Validator|developers\.google\.com/\+/web/snippet) [NC]
+  RewriteRule ^property/([a-f0-9-]+)$ https://hdigtojmeagwaqdknblj.supabase.co/functions/v1/property-ssr?id=$1 [R=302,L]
+  
+  # Handle client-side routing for regular users
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

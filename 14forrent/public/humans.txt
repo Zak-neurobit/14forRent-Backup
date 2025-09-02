@@ -1,0 +1,70 @@
+# Humans.txt for 14ForRent
+# The humans behind the website
+
+/* TEAM */
+
+Founder & CEO: Zak Seid
+Contact: zak.seid@gmail.com
+Location: Los Angeles, California
+
+Co-Founder: Jason
+Contact: jason@14ForRent.com
+Location: Los Angeles, California
+
+AI Assistant: Roger
+Role: Virtual Property Assistant
+Specialties: Property search, tenant inquiries, scheduling tours
+
+/* THANKS */
+
+Special thanks to all our property owners and tenants who trust us with their rental needs.
+
+Thanks to the open source community for the amazing tools and libraries.
+
+/* TECHNOLOGY */
+
+Frontend: React 18, TypeScript, Vite
+Styling: Tailwind CSS, Radix UI
+Backend: Supabase (PostgreSQL)
+AI/ML: OpenAI GPT-4, Claude
+Analytics: Custom analytics service
+Search: AI-powered semantic search
+Hosting: Vercel/Netlify
+CDN: Cloudflare
+
+Standards: HTML5, CSS3, ES6+
+Components: Radix UI, Shadcn/ui
+Tools: GitHub, VS Code, Figma
+
+/* SITE */
+
+Last update: 2025-08-13
+Language: English
+Doctype: HTML5
+IDE: Visual Studio Code
+Version Control: Git/GitHub
+
+/* COMPANY */
+
+14ForRent LLC
+Reinventing Renting
+Location: Los Angeles, CA
+Founded: 2024
+Website: https://14forrent.com
+Email: info@14forrent.com
+Phone: +1 323-774-4700
+
+/* SOCIAL */
+
+Facebook: https://www.facebook.com/14ForRent
+Instagram: https://www.instagram.com/14ForRent
+LinkedIn: https://www.linkedin.com/company/14forrent/
+X (Twitter): https://x.com/14ForRent
+YouTube: https://www.youtube.com/@14ForRent
+
+/* LEGAL */
+
+Fair Housing Compliant
+Equal Opportunity Housing
+Licensed Real Estate Brokerage
+DRE License: #02197031

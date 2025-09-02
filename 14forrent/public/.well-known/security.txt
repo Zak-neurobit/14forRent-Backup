@@ -1,0 +1,46 @@
+# Security Policy for 14ForRent
+# This file helps security researchers report vulnerabilities responsibly
+
+# Our security email for vulnerability reports
+Contact: mailto:security@14forrent.com
+
+# Our main website
+Canonical: https://14forrent.com/.well-known/security.txt
+
+# When this file expires (6 months from now)
+Expires: 2026-02-13T00:00:00.000Z
+
+# Our preferred languages for communication
+Preferred-Languages: en
+
+# Acknowledgments page for security researchers
+Acknowledgments: https://14forrent.com/security/acknowledgments
+
+# Our vulnerability disclosure policy
+Policy: https://14forrent.com/security/disclosure-policy
+
+# Encryption key for secure communication (optional - add your PGP key here if available)
+# Encryption: https://14forrent.com/pgp-key.txt
+
+# Additional Information
+# ========================
+# We take security seriously at 14ForRent
+# Please report vulnerabilities responsibly
+# We aim to respond within 48 hours
+# Critical vulnerabilities will be addressed immediately
+
+# Bug Bounty Program
+# We appreciate responsible disclosure
+# While we don't currently offer monetary rewards,
+# we acknowledge security researchers on our hall of fame
+
+# Out of Scope
+# - Social engineering attacks
+# - Physical attacks
+# - Attacks on third-party services
+# - Denial of Service attacks
+
+# Response Timeline
+# Initial response: 48 hours
+# Time to triage: 7 days
+# Time to resolution: Based on severity

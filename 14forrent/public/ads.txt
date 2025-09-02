@@ -1,0 +1,36 @@
+# Ads.txt for 14ForRent.com
+# This file lists authorized digital sellers for advertising inventory
+# It helps prevent counterfeit inventory and protects brand reputation
+# Last Updated: 2025-08-13
+
+# Google AdSense
+google.com, pub-1234567890123456, DIRECT, f08c47fec0942fa0
+
+# Google Ad Manager (if applicable)
+# google.com, pub-0000000000000000, RESELLER, f08c47fec0942fa0
+
+# Amazon Publisher Services
+# aps.amazon.com, 00000000-0000-0000-0000-000000000000, DIRECT
+
+# Facebook Audience Network
+# facebook.com, 0000000000000000, RESELLER, c3e20eee3f780d68
+
+# Media.net
+# media.net, 0000000000, DIRECT, 5d62403b186f2ace
+
+# Taboola
+# taboola.com, 0000000, DIRECT, c228e6794e811952
+
+# Outbrain
+# outbrain.com, 00000000000000000000000000000000000, DIRECT
+
+# Note: Replace placeholder IDs with actual publisher IDs when you sign up with these networks
+# Format: <domain>, <publisher_id>, <relationship>, <certification_authority_id>
+# DIRECT = Direct relationship with the publisher
+# RESELLER = Reselling/intermediary relationship
+
+# For more information about ads.txt:
+# https://iabtechlab.com/ads-txt/
+
+# Contact for advertising inquiries:
+# advertising@14forrent.com

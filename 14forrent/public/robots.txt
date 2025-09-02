@@ -1,0 +1,121 @@
+# Robots.txt for 14ForRent - Reinventing Renting
+# Allow search engines to index public content while protecting sensitive areas
+# Last Updated: 2025-08-13
+
+User-agent: *
+# Crawl delay to prevent server overload (in seconds)
+Crawl-delay: 1
+# Allow all public pages
+Allow: /
+Allow: /search
+Allow: /property/
+Allow: /blog/
+Allow: /contact
+Allow: /terms
+Allow: /fair-housing
+Allow: /available-units
+
+# Block admin and sensitive areas
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /supabase/
+Disallow: /login
+Disallow: /signup
+Disallow: /my-listings
+Disallow: /favorites
+Disallow: /profile
+Disallow: /owner-dashboard
+Disallow: /list
+Disallow: /get-preapproved
+Disallow: /welcome-back
+
+# Block development and build files
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /*.json
+Disallow: /*.config.*
+Disallow: /dist/
+
+# Block common sensitive files
+Disallow: /.env
+Disallow: /.git
+Disallow: /logs/
+Disallow: /temp/
+Disallow: /tmp/
+
+# Social media crawlers - allow access to public content for sharing
+User-agent: Twitterbot
+Allow: /
+Allow: /property/
+Allow: /blog/
+Disallow: /admin
+Disallow: /api/
+
+User-agent: facebookexternalhit
+Allow: /
+Allow: /property/
+Allow: /blog/
+Disallow: /admin
+Disallow: /api/
+
+User-agent: LinkedInBot
+Allow: /
+Allow: /property/
+Allow: /blog/
+Disallow: /admin
+Disallow: /api/
+
+# AI Crawlers - Allow controlled access
+User-agent: GPTBot
+Allow: /
+Allow: /property/
+Allow: /blog/
+Allow: /search
+Allow: /available-units
+Disallow: /admin
+Disallow: /api/
+Disallow: /my-listings
+Disallow: /profile
+Crawl-delay: 2
+
+User-agent: ChatGPT-User
+Allow: /
+Allow: /property/
+Allow: /blog/
+Allow: /search
+Allow: /available-units
+Disallow: /admin
+Disallow: /api/
+Crawl-delay: 2
+
+User-agent: CCBot
+Allow: /
+Allow: /property/
+Allow: /blog/
+Disallow: /admin
+Disallow: /api/
+Crawl-delay: 2
+
+User-agent: anthropic-ai
+Allow: /
+Allow: /property/
+Allow: /blog/
+Allow: /search
+Allow: /available-units
+Disallow: /admin
+Disallow: /api/
+Crawl-delay: 2
+
+User-agent: Claude-Web
+Allow: /
+Allow: /property/
+Allow: /blog/
+Allow: /search
+Allow: /available-units
+Disallow: /admin
+Disallow: /api/
+Crawl-delay: 2
+
+# Sitemap location
+Sitemap: https://14forrent.com/sitemap.xml

@@ -1,0 +1,174 @@
+# LLM.txt - 14ForRent AI Crawler Information
+
+## Site Overview
+Site Name: 14ForRent
+Tagline: Reinventing Renting
+Description: AI-powered real estate platform reimagining how you find, rent, and manage properties
+Purpose: Modern property rental marketplace connecting tenants with quality homes and apartments
+
+## Business Information
+Company: 14ForRent LLC
+Industry: Real Estate / Property Management
+Services: Property listings, rental management, tenant screening, property search
+Location: Los Angeles, California, United States
+Primary Market: Los Angeles residential rental properties
+Service Areas: Greater Los Angeles Metropolitan Area
+
+## Key Pages & Content Structure
+
+### Main Navigation
+- Homepage (/) - Property search and featured listings
+- Search (/search) - Advanced property search with filters
+- Available Units (/available-units) - Current rental listings
+- Blog (/blog) - Real estate insights and guides
+- Contact (/contact) - Business contact information
+
+### Property Pages
+- Individual listings (/property/{id}) - Detailed property information
+- Property images, descriptions, amenities, pricing
+- Contact information for inquiries and tours
+
+### Legal & Policy
+- Terms & Conditions (/terms) - Service terms
+- Fair Housing (/fair-housing) - Fair housing policy
+
+## Content Types
+1. Property Listings - Apartments, houses, condos for rent
+2. Blog Posts - Real estate market insights, renting guides
+3. Location Information - Neighborhood details, local amenities
+4. Contact Information - Business hours, contact methods
+
+## Business Contact
+Email: info@14ForRent.com
+Phone: +1 323-774-4700
+Business Hours: Monday-Friday 9AM-6PM PST
+
+## Social Media Presence
+Facebook: https://www.facebook.com/14ForRent
+Instagram: https://www.instagram.com/14ForRent
+LinkedIn: https://www.linkedin.com/company/14forrent/
+X (Twitter): https://x.com/14ForRent
+Yelp: https://www.yelp.com/biz/14-for-rent-llc-los-angeles-2
+YouTube: https://www.youtube.com/@14ForRent
+
+## Los Angeles Service Areas
+### Premium Neighborhoods
+- Beverly Hills - Luxury apartments and estates
+- Santa Monica - Beachside condos and apartments
+- Manhattan Beach - Coastal luxury rentals
+- Brentwood - Upscale family homes
+- Pacific Palisades - High-end properties
+
+### Popular Areas
+- West Los Angeles (West LA) - Professional apartments
+- Hollywood - Entertainment district rentals
+- Downtown LA (DTLA) - Urban lofts and high-rises
+- Venice Beach - Bohemian beachside rentals
+- Silver Lake - Trendy artistic community
+- Los Feliz - Historic charm rentals
+- Echo Park - Hip neighborhood apartments
+
+### Family-Friendly Areas
+- Culver City - Family homes and townhouses
+- Marina del Rey - Waterfront condos
+- Playa Vista - Modern planned community
+- Sherman Oaks - Valley family homes
+- Studio City - Suburban apartments
+
+### Near Universities
+- Westwood (UCLA area) - Student and professional housing
+- University Park (USC area) - Campus-adjacent rentals
+- Northridge (CSUN area) - Affordable student housing
+
+## Property Types & Price Ranges
+### Studios
+- Price Range: $1,375 - $2,500/month
+- Popular Areas: Downtown, Hollywood, Koreatown
+
+### 1 Bedroom Apartments
+- Price Range: $2,200 - $3,500/month
+- Popular Areas: West LA, Santa Monica, Beverly Hills
+
+### 2 Bedroom Apartments/Houses
+- Price Range: $3,000 - $5,000/month
+- Popular Areas: Culver City, Marina del Rey, Sherman Oaks
+
+### 3+ Bedroom Houses
+- Price Range: $4,000 - $8,000+/month
+- Popular Areas: Brentwood, Pacific Palisades, Manhattan Beach
+
+### Luxury Rentals
+- Price Range: $5,000 - $25,000+/month
+- Areas: Beverly Hills, Bel Air, Hollywood Hills
+
+## Target Keywords
+- los angeles apartments for rent
+- LA rentals
+- houses for rent los angeles
+- downtown la apartments
+- beverly hills rentals
+- santa monica apartments
+- west LA rentals
+- pet friendly apartments los angeles
+- luxury condos LA
+- studio apartments los angeles
+- cheap apartments in LA
+- furnished apartments los angeles
+- no broker fee apartments LA
+- apartments near UCLA
+- apartments near USC
+
+## Technical Information
+Platform: React.js web application
+Database: Supabase (PostgreSQL)
+Features: AI-powered search, property management tools, tenant screening
+
+## Content Policy
+- All property information is provided by property owners/managers
+- Listings are verified for accuracy
+- Fair housing compliance maintained
+- Privacy and data protection respected
+
+## AI Crawler Notes
+- Public property listings are freely indexable
+- Blog content available for knowledge extraction
+- Business information suitable for directory listings
+- Contact information verified and up-to-date
+- Social media links maintained and active
+
+## API & Integration Information
+- REST API: Available for property listings and search
+- Webhooks: Real-time notifications for new listings
+- OAuth 2.0: Secure authentication for partners
+- Rate Limiting: 1000 requests per hour per API key
+
+## Schema.org Structured Data
+- RealEstateListing schema for properties
+- Organization schema for business info
+- BreadcrumbList schema for navigation
+- FAQPage schema for help content
+- BlogPosting schema for articles
+- LocalBusiness schema for company details
+
+## Performance Metrics
+- Page Load Speed: < 2 seconds average
+- Mobile Score: 95/100 (Google PageSpeed)
+- Core Web Vitals: All metrics in green zone
+- Uptime: 99.9% SLA guaranteed
+
+## Compliance & Certifications
+- Fair Housing Act compliant
+- GDPR compliant for EU users
+- CCPA compliant for California residents
+- SOC 2 Type II certified
+- PCI DSS compliant for payment processing
+
+## AI Features
+- Natural language property search
+- Smart matching algorithm
+- Automated property descriptions
+- Virtual tour generation
+- Chatbot assistance (Roger)
+
+## Last Updated
+August 13, 2025

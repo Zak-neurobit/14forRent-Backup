@@ -1,0 +1,41 @@
+{
+  "memories": [
+    {
+      "id": "mem_1754414068093_fnh3oubpq",
+      "content": "Google Search Console detected 3 Product snippets structured data issues on 14forrent.com: missing \"priceValidUntil\" in offers, missing \"review\", and missing \"aggregateRating\" fields. These are non-critical but affect search appearance.",
+      "type": "general",
+      "tags": [
+        "general",
+        "seo",
+        "structured-data",
+        "google-search-console",
+        "product-snippets"
+      ],
+      "timestamp": "2025-08-05T17:14:28.093Z",
+      "context": "SEO structured data issues for rental listing website",
+      "accessCount": 0,
+      "lastAccessed": "2025-08-05T17:14:28.093Z",
+      "lastVerified": "2025-08-05T17:14:28.093Z",
+      "status": "fresh"
+    },
+    {
+      "id": "mem_1754414152164_zwprigi0w",
+      "content": "User wants to remove all MCP servers including \"daddy claude\" that are currently installed in their Claude Code setup",
+      "type": "config",
+      "tags": [
+        "config",
+        "claude-code",
+        "mcp",
+        "configuration",
+        "removal"
+      ],
+      "timestamp": "2025-08-05T17:15:52.164Z",
+      "context": "Claude Code MCP management - removing installed servers",
+      "accessCount": 0,
+      "lastAccessed": "2025-08-05T17:15:52.164Z",
+      "lastVerified": "2025-08-05T17:15:52.164Z",
+      "status": "fresh"
+    }
+  ],
+  "lastUpdated": "2025-08-05T17:15:52.164Z"
+}
