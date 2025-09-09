@@ -68,6 +68,11 @@ const SEOMeta = ({
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />
       <meta name="twitter:image:alt" content={title} />
+      
+      {/* Apple/iMessage Specific Meta Tags */}
+      <meta name="apple-mobile-web-app-title" content="14ForRent" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="format-detection" content="telephone=no" />
 
       {/* Structured Data */}
       {structuredData && (

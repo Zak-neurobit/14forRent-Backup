@@ -2,9 +2,14 @@
   RewriteEngine On
   RewriteBase /
   
+  # EXCLUDE iMessage from bot detection - it should get normal meta tags
+  # iMessage has facebookexternalhit but also Safari/601 in its user agent
+  RewriteCond %{HTTP_USER_AGENT} facebookexternalhit.*Safari/601 [NC]
+  RewriteRule ^property/([a-f0-9-]+)$ - [S=2]
+  
   # Redirect bot/crawler traffic to Supabase edge function for SSR
   # This ensures social media platforms get proper meta tags with property images
-  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|facebookcatalog|Facebot|WhatsApp|LinkedInBot|Twitterbot|Slackbot|Discordbot|TelegramBot|Googlebot|bingbot|Slurp|DuckDuckBot|baiduspider|yandex|vkShare|redditbot|Applebot|Pinterestbot|Embedly|quora\ link\ preview|outbrain|pinterest|Flipboard|tumblr|bitlybot|Skype|iMessage|developers\.google\.com) [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|facebookcatalog|Facebot|WhatsApp|LinkedInBot|Twitterbot|Slackbot|Discordbot|TelegramBot|Googlebot|bingbot|Slurp|DuckDuckBot|baiduspider|yandex|vkShare|redditbot|Pinterestbot|Embedly|quora\ link\ preview|outbrain|pinterest|Flipboard|tumblr|bitlybot|Skype|developers\.google\.com) [NC,OR]
   RewriteCond %{HTTP_USER_AGENT} (W3C_Validator|developers\.google\.com/\+/web/snippet) [NC]
   RewriteRule ^property/([a-f0-9-]+)$ https://hdigtojmeagwaqdknblj.supabase.co/functions/v1/property-ssr?id=$1 [R=302,L]
   

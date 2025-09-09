@@ -89,7 +89,7 @@ const SortableImageItem = ({
     <Card 
       ref={setNodeRef}
       style={style}
-      className={`relative group overflow-hidden transition-all duration-200 ${
+      className={`relative group overflow-hidden transition-all duration-200 h-32 ${
         index === thumbnailIndex 
           ? 'ring-2 ring-blue-500 ring-offset-2' 
           : ''
@@ -109,8 +109,11 @@ const SortableImageItem = ({
           loading="lazy"
           onError={(e) => {
             console.error('Image failed to load:', image);
+            console.error('Normalized URL was:', normalizeImageUrl(image));
             // Fallback to placeholder if image fails to load
             e.currentTarget.src = '/placeholder.svg';
+            // Also log the original image URL for debugging
+            console.error('Original image URL:', image);
           }}
         />
       </div>
@@ -359,8 +362,11 @@ export const ImageUploader = ({
           .getPublicUrl(fileName);
 
         if (urlData?.publicUrl) {
+          console.log('Generated public URL for', fileName, ':', urlData.publicUrl);
           newImages.push(urlData.publicUrl);
           console.log('Successfully uploaded:', urlData.publicUrl);
+        } else {
+          console.error('Failed to get public URL for:', fileName);
         }
 
         // Update upload progress

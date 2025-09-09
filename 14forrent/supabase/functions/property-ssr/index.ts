@@ -7,6 +7,7 @@ const corsHeaders = {
 };
 
 // List of known bot/crawler user agents for social media platforms
+// NOTE: iMessage preview is NOT included here - it should use regular meta tags
 const BOT_USER_AGENTS = [
   'facebookexternalhit',
   'facebookcatalog',
@@ -26,7 +27,7 @@ const BOT_USER_AGENTS = [
   'vkShare',
   'W3C_Validator',
   'redditbot',
-  'Applebot',
+  // Removed 'Applebot' - let iMessage use regular meta tags
   'Pinterestbot',
   'developers.google.com/+/web/snippet',
   'Embedly',
@@ -62,6 +63,14 @@ interface Property {
 const isBot = (userAgent: string): boolean => {
   if (!userAgent) return false;
   const ua = userAgent.toLowerCase();
+  
+  // Special case: iMessage uses facebookexternalhit BUT also Safari/601
+  // We want iMessage to use regular meta tags, not SSR
+  if (ua.includes('facebookexternalhit') && ua.includes('safari/601') && ua.includes('khtml')) {
+    console.log('Detected iMessage preview - returning redirect instead of SSR');
+    return false; // Not a bot for our purposes
+  }
+  
   return BOT_USER_AGENTS.some(bot => ua.includes(bot.toLowerCase()));
 };
 

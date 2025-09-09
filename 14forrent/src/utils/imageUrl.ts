@@ -5,18 +5,27 @@ import { supabase } from "@/integrations/supabase/client";
  * Handles relative paths, full URLs, and various edge cases
  */
 export function normalizeImageUrl(url: string | null | undefined): string {
-  if (!url) return '/placeholder.svg';
+  if (!url) {
+    return '/placeholder.svg';
+  }
   
   // Remove any leading/trailing whitespace
   const trimmed = url.trim();
   
-  // If it's already a full URL, return it
-  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+  // If it's a placeholder or local asset, return as-is
+  if (trimmed.startsWith('/placeholder') || trimmed.startsWith('/assets')) {
     return trimmed;
   }
   
-  // If it's a placeholder or local asset, return as-is
-  if (trimmed.startsWith('/placeholder') || trimmed.startsWith('/assets')) {
+  // Check if it's already a full URL (including Supabase storage URLs)
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    // Special handling for Supabase storage URLs
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    if (supabaseUrl && trimmed.includes(supabaseUrl) && trimmed.includes('/storage/v1/object/public/')) {
+      // Valid Supabase storage URL, return as-is
+      return trimmed;
+    }
+    // Other full URLs, return as-is
     return trimmed;
   }
   
@@ -26,7 +35,14 @@ export function normalizeImageUrl(url: string | null | undefined): string {
     .from('property_images')
     .getPublicUrl(trimmed);
   
-  return data?.publicUrl || '/placeholder.svg';
+  const finalUrl = data?.publicUrl || '/placeholder.svg';
+  
+  // Log only if there's an issue
+  if (!data?.publicUrl) {
+    console.warn('Failed to generate public URL for:', trimmed);
+  }
+  
+  return finalUrl;
 }
 
 /**

@@ -1,6 +1,7 @@
 // Cloudflare Worker Script for 14ForRent
 // This worker detects social media bots and redirects them to the Supabase Edge Function
 
+// NOTE: Applebot is excluded to allow iMessage to read regular meta tags
 const BOT_USER_AGENTS = [
   'facebookexternalhit',
   'facebookcatalog',
@@ -20,7 +21,7 @@ const BOT_USER_AGENTS = [
   'vkShare',
   'W3C_Validator',
   'redditbot',
-  'Applebot',
+  // 'Applebot', // Removed - let iMessage use regular meta tags
   'Pinterestbot',
   'Embedly',
   'quora link preview',
@@ -45,7 +46,17 @@ async function handleRequest(request) {
   if (propertyMatch) {
     const propertyId = propertyMatch[1];
     
-    // Check if the request is from a bot
+    // Check if this is iMessage (has facebookexternalhit but also Safari/601)
+    const isiMessage = userAgent.includes('facebookexternalhit') && 
+                       userAgent.includes('Safari/601') && 
+                       userAgent.includes('KHTML');
+    
+    // If it's iMessage, DON'T send to SSR - let it read normal meta tags
+    if (isiMessage) {
+      return fetch(request);
+    }
+    
+    // Check if the request is from other bots
     const isBot = BOT_USER_AGENTS.some(bot => 
       userAgent.toLowerCase().includes(bot.toLowerCase())
     );
