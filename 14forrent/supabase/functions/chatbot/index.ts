@@ -26,6 +26,24 @@ INTELLIGENT RESPONSES:
 - Be encouraging: "I've got some great options" or "You're going to love this"
 - Acknowledge limitations honestly: "I don't have any condos available right now, but here is an apartment that might work"
 
+PROPERTY ALERT SYSTEM - IMPORTANT:
+When you don't have properties that match the user's preferences well (less than 90% match):
+1. First, ask clarifying questions to fully understand their needs:
+   - How many bedrooms/bathrooms?
+   - What's their budget range?
+   - Where in the city do they want to live?
+   - Any specific amenities (parking, washer/dryer, balcony, pet-friendly, etc.)?
+2. Search through available properties one more time
+3. If still no good match (90%+ match), offer to notify them:
+   - Use casual, friendly language: "I don't have anything that matches right now, but I can totally text you when something perfect comes up!"
+   - Ask for their name, email, and phone number
+   - Confirm their preferences back to them
+   - End with: "Cool! I'll shoot you a text/email when I have something perfect. Best, Roger"
+4. When collecting info, be conversational:
+   - "What's your name?"
+   - "Cool, and what's your email?"
+   - "Last thing - what's your number?"
+
 Contact Information:
 - Phone: +1 323-774-4700
 - Email: info@14forrent.com
@@ -44,7 +62,28 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    const { message, context = [] } = await req.json();
+    // Parse request with better error handling
+    let message, context;
+    try {
+      const requestBody = await req.text();
+      console.log('Raw request body:', requestBody);
+      const parsedBody = JSON.parse(requestBody);
+      message = parsedBody.message;
+      context = parsedBody.context || [];
+    } catch (parseError) {
+      console.error('Error parsing request JSON:', parseError.message);
+      return new Response(JSON.stringify({
+        reply: "I received your message but had trouble processing it. Please try again.",
+        error: `Request parsing error: ${parseError.message}`
+      }), {
+        status: 400,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        },
+      });
+    }
+
     console.log('Chatbot received message:', message);
     console.log('Context messages:', context.length);
 
@@ -78,8 +117,16 @@ serve(async (req) => {
         if (aiSettings.temperature !== null) temperature = aiSettings.temperature;
         if (aiSettings.max_tokens) maxTokens = aiSettings.max_tokens;
         if (aiSettings.system_prompt) {
-          systemPrompt = aiSettings.system_prompt;
-          console.log('Using system prompt from database');
+          // Sanitize system prompt to ensure it's valid
+          try {
+            systemPrompt = aiSettings.system_prompt;
+            // Test if it can be safely included in JSON
+            JSON.stringify({ test: systemPrompt });
+            console.log('Using system prompt from database (length:', systemPrompt.length, ')');
+          } catch (sanitizeError) {
+            console.error('System prompt has invalid characters, using default:', sanitizeError.message);
+            systemPrompt = DEFAULT_SYSTEM_PROMPT;
+          }
         } else {
           console.log('Using default system prompt');
         }
@@ -258,26 +305,26 @@ Detected user preferences: ${preferences.join(', ') || 'None detected yet'}`;
 })()}
 
 CRITICAL PROPERTY SELECTION RULES:
-1. You MUST select exactly ONE property for every property-related query
-2. ALWAYS end your response with: SELECTED_PROPERTY: [X] (where X is the property number from the list above)
-3. NEVER skip the SELECTED_PROPERTY format - it's required for the system to show property cards
-4. Select from available (unshown) properties only
-5. Be conversational but ALWAYS include the selection format
+1. ONLY select a property if it genuinely matches the user's requirements (bedrooms, budget, location, etc.)
+2. If a property matches, ALWAYS end your response with: SELECTED_PROPERTY: [X] (where X is the property number from the list above)
+3. If NO properties match the user's requirements (e.g., they want "under $3000" but cheapest is $3195), DO NOT include SELECTED_PROPERTY - instead offer property alerts
+4. When offering alerts, say: "I don't have any [requirements] right now. Want me to notify you when one comes in?"
+5. Be conversational but prioritize accuracy over showing properties
 6. For "show more" requests, be enthusiastic and vary your language
 
-RESPONSE STRUCTURE (MANDATORY):
-- Your conversational response
-- SELECTED_PROPERTY: [number]
+RESPONSE STRUCTURE:
+- If there's a matching property: Your conversational response + SELECTED_PROPERTY: [number]
+- If NO matching property: Just your conversational response offering alerts (NO SELECTED_PROPERTY)
 
-EXAMPLES (FOLLOW THIS EXACT FORMAT):
+EXAMPLES WHEN PROPERTIES MATCH:
 - "I found a great option for you! SELECTED_PROPERTY: [2]"
-- "Since you mentioned wanting something affordable, this one caught my eye! SELECTED_PROPERTY: [4]"  
+- "Since you mentioned wanting something affordable, this one caught my eye! SELECTED_PROPERTY: [4]"
 - "Here's another great option! SELECTED_PROPERTY: [1]"
-- "Perfect! I have something else that might work! SELECTED_PROPERTY: [3]"
-- "Absolutely! Here's another fantastic choice! SELECTED_PROPERTY: [5]"
-- "I've got more to show you! Check this one out! SELECTED_PROPERTY: [2]"
 
-IMPORTANT: Even if you're being conversational, you MUST include SELECTED_PROPERTY: [X] at the end of EVERY property response.
+EXAMPLES WHEN NO PROPERTIES MATCH:
+- "I don't have any 2BR under $3,000 right now. Want me to notify you when one comes in?"
+- "Nothing available in that price range at the moment. Want to set up an alert?"
+- "I don't see any matches for those requirements. Should I let you know when something comes in?"
 
 Current Query: "${message}"` : systemPrompt
       },
@@ -287,18 +334,98 @@ Current Query: "${message}"` : systemPrompt
 
     console.log(`Sending request to OpenAI with model: ${selectedModel}, temperature: ${temperature}, max_tokens: ${maxTokens}`);
 
+    // Define the save_property_alert function that Roger can call
+    const functions = [
+      {
+        name: "save_property_alert",
+        description: "Save a property alert when a user wants to be notified about properties matching their preferences. Use this when you've collected the user's contact info (name, email, phone) and their property preferences, and they want to be notified when matching properties become available.",
+        parameters: {
+          type: "object",
+          properties: {
+            name: {
+              type: "string",
+              description: "The user's full name"
+            },
+            email: {
+              type: "string",
+              description: "The user's email address"
+            },
+            phone: {
+              type: "string",
+              description: "The user's phone number (optional)"
+            },
+            bedrooms: {
+              type: "integer",
+              description: "Number of bedrooms they want (optional)"
+            },
+            bathrooms: {
+              type: "number",
+              description: "Number of bathrooms they want (optional)"
+            },
+            min_price: {
+              type: "integer",
+              description: "Minimum price in dollars (optional)"
+            },
+            max_price: {
+              type: "integer",
+              description: "Maximum price in dollars (optional)"
+            },
+            location: {
+              type: "string",
+              description: "Preferred location/area (optional)"
+            },
+            amenities: {
+              type: "array",
+              items: { type: "string" },
+              description: "List of desired amenities (e.g., parking, washer/dryer, balcony, pet-friendly)"
+            },
+            conversation_summary: {
+              type: "string",
+              description: "A brief summary of what the user is looking for"
+            },
+            raw_message: {
+              type: "string",
+              description: "The original user message expressing their needs"
+            }
+          },
+          required: ["name", "email", "conversation_summary"]
+        }
+      }
+    ];
+
+    // Construct OpenAI request with error handling
+    let requestBody;
+    try {
+      requestBody = JSON.stringify({
+        model: selectedModel,
+        messages: messages,
+        max_tokens: maxTokens,
+        temperature: temperature,
+        functions: functions,
+        function_call: "auto"
+      });
+      console.log('OpenAI request body length:', requestBody.length);
+    } catch (jsonError) {
+      console.error('Error constructing OpenAI request JSON:', jsonError.message);
+      return new Response(JSON.stringify({
+        reply: "I'm having trouble processing your request. Please try with a simpler message.",
+        error: `JSON construction error: ${jsonError.message}`
+      }), {
+        status: 500,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        },
+      });
+    }
+
     const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${openAIApiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        model: selectedModel,
-        messages: messages,
-        max_tokens: maxTokens,
-        temperature: temperature,
-      }),
+      body: requestBody,
     });
 
     if (!openAIResponse.ok) {
@@ -329,7 +456,81 @@ Current Query: "${message}"` : systemPrompt
     }
 
     const openAIData = await openAIResponse.json();
-    let reply = openAIData.choices[0]?.message?.content || "I apologize, but I'm having trouble responding right now.";
+
+    // Check if OpenAI wants to call a function
+    const responseMessage = openAIData.choices[0]?.message;
+
+    if (responseMessage?.function_call) {
+      console.log('OpenAI wants to call function:', responseMessage.function_call.name);
+
+      // Roger wants to save a property alert
+      if (responseMessage.function_call.name === 'save_property_alert') {
+        try {
+          const functionArgs = JSON.parse(responseMessage.function_call.arguments);
+          console.log('Function arguments:', functionArgs);
+
+          // Call the save-property-alert edge function
+          const { data: alertData, error: alertError } = await supabaseClient.functions.invoke('save-property-alert', {
+            body: functionArgs
+          });
+
+          if (alertError) {
+            console.error('Error saving property alert:', alertError);
+            throw alertError;
+          }
+
+          console.log('Property alert saved successfully:', alertData);
+
+          // Send the function result back to OpenAI so Roger can respond naturally
+          const followUpMessages = [
+            ...messages,
+            responseMessage,
+            {
+              role: 'function',
+              name: 'save_property_alert',
+              content: JSON.stringify({ success: true, message: 'Alert saved and notifications sent' })
+            }
+          ];
+
+          // Get Roger's final response after saving the alert
+          const followUpResponse = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${openAIApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              model: selectedModel,
+              messages: followUpMessages,
+              max_tokens: maxTokens,
+              temperature: temperature,
+            }),
+          });
+
+          if (followUpResponse.ok) {
+            const followUpData = await followUpResponse.json();
+            const finalReply = followUpData.choices[0]?.message?.content || "Cool! I'll shoot you a text/email when I have something perfect. Best, Roger";
+
+            return new Response(JSON.stringify({
+              reply: finalReply,
+              properties: [],
+              alert_saved: true
+            }), {
+              headers: {
+                ...corsHeaders,
+                'Content-Type': 'application/json'
+              },
+            });
+          }
+
+        } catch (error) {
+          console.error('Error in function call handling:', error);
+          // Continue with normal flow if function call fails
+        }
+      }
+    }
+
+    let reply = responseMessage?.content || "I apologize, but I'm having trouble responding right now.";
 
     console.log('Generated reply length:', reply.length);
     console.log('RAW AI RESPONSE:', reply);
@@ -369,22 +570,36 @@ Current Query: "${message}"` : systemPrompt
         }
       }
       
+      // Check if AI intentionally didn't select a property (no match scenario)
+      const intentionallyNoMatch = reply.toLowerCase().includes("don't have") ||
+                                    reply.toLowerCase().includes("don't see") ||
+                                    reply.toLowerCase().includes("no properties") ||
+                                    reply.toLowerCase().includes("nothing available") ||
+                                    reply.toLowerCase().includes("want me to notify");
+
       // If AI didn't select a property or index is invalid, use intelligent fallback
+      // BUT only if AI didn't intentionally say "no match"
       if (selectedIndex < 0 || selectedIndex >= availableListings.length) {
-        console.log('No valid AI selection found, using intelligent fallback');
-        if (availableListings.length > 0) {
-          // Show first available unshown property, prioritizing featured
-          const featuredUnshown = availableListings.filter(listing => listing.featured);
-          selectedIndex = 0; // Default to first available
-          if (featuredUnshown.length > 0) {
-            selectedIndex = availableListings.indexOf(featuredUnshown[0]);
+        if (intentionallyNoMatch) {
+          console.log('AI intentionally did not select a property (no good match)');
+          selectedIndex = -1; // Don't show any property
+        } else {
+          console.log('No valid AI selection found, using intelligent fallback');
+          if (availableListings.length > 0) {
+            // Show first available unshown property, prioritizing featured
+            const featuredUnshown = availableListings.filter(listing => listing.featured);
+            selectedIndex = 0; // Default to first available
+            if (featuredUnshown.length > 0) {
+              selectedIndex = availableListings.indexOf(featuredUnshown[0]);
+            }
+            console.log('Fallback selected index:', selectedIndex);
           }
-          console.log('Fallback selected index:', selectedIndex);
         }
       }
-      
+
       // CRITICAL: Always ensure we have a property for property queries
-      if (finalIsPropertyQuery && availableListings.length > 0 && (selectedIndex < 0 || selectedIndex >= availableListings.length)) {
+      // UNLESS AI intentionally said there's no good match
+      if (finalIsPropertyQuery && availableListings.length > 0 && (selectedIndex < 0 || selectedIndex >= availableListings.length) && !intentionallyNoMatch) {
         console.log('EMERGENCY FALLBACK: Forcing selection of first available property');
         selectedIndex = 0;
       }

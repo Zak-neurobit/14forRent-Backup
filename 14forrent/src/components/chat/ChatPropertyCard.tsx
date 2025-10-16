@@ -5,6 +5,7 @@ import { MapPin, Bed, Bath, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ScheduleTourButton from "@/components/property/ScheduleTourButton";
+import { getSupabaseImageUrl } from "@/utils/imageUrl";
 
 interface Property {
   id: string;
@@ -29,15 +30,24 @@ const ChatPropertyCard = ({ property }: ChatPropertyCardProps) => {
   const navigate = useNavigate();
   
   console.log('ChatPropertyCard rendering with property:', property);
-  
+
   // GUARANTEE valid images - always have at least placeholder
-  const images = property.images && property.images.length > 0 
+  const images = property.images && property.images.length > 0
     ? property.images.filter(img => img && img.trim() !== '')
     : ['/placeholder.svg'];
-  
-  // If filtered images is empty, ensure placeholder
-  const validImages = images.length > 0 ? images : ['/placeholder.svg'];
-  
+
+  // Convert relative image paths to full Supabase URLs
+  const validImages = images.length > 0
+    ? images.map(img => {
+        // If it's already a full URL or placeholder, use as-is
+        if (img.startsWith('http') || img.startsWith('/')) {
+          return img;
+        }
+        // Otherwise, convert to Supabase storage URL
+        return getSupabaseImageUrl(img);
+      })
+    : ['/placeholder.svg'];
+
   console.log('Property images processed:', validImages);
 
   const nextImage = () => {
